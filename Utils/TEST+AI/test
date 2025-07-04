@@ -1,0 +1,75 @@
+import UIKit
+import Foundation
+
+@MainActor
+class Test 
+{    
+    struct ServerTimeResponse: Codable {
+        let serverTime: String
+        let timeZone: String
+    }
+    
+    func formatServerTime(jsonString: String) -> String? {
+        guard let data = jsonString.data(using: .utf8),
+              let response = try? JSONDecoder().decode(ServerTimeResponse.self, from: data),
+              let date = ISO8601DateFormatter().date(from: response.serverTime),
+              let timeZone = TimeZone(identifier: response.timeZone) else {
+            return nil
+        }
+        
+        let formatter = DateFormatter()
+        // Custom format for "GMT±HH" (like GMT-04)
+        formatter.dateFormat = "h:mm a 'GMT'X"
+        formatter.timeZone = timeZone
+        
+        return formatter.string(from: date)
+    }
+    
+    // Example usage:
+    func example() {
+        let json = """
+        {"serverTime":"2025-06-10T14:40:22.912Z","timeZone":"America/New_York"}
+        """
+        
+        if let formattedTime = formatServerTime(jsonString: json) {
+            print(formattedTime) // Will output something like "10:40 AM EDT"
+        }
+    }
+    
+    func verifyETTimezones() {
+        let newYorkTZ = TimeZone(identifier: "America/New_York")
+        let detroitTZ = TimeZone(identifier: "America/Detroit")
+        
+        // Create a date for testing
+        let testDate = Date()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a zzz (ZZZZ)"
+        
+        // Test New York timezone
+        formatter.timeZone = newYorkTZ
+        print("New York time: \(formatter.string(from: testDate))")
+        
+        // Test Detroit timezone
+        formatter.timeZone = detroitTZ
+        print("Detroit time: \(formatter.string(from: testDate))")
+        
+        // Verify they are the same offset
+        print("New York offset: \(newYorkTZ?.secondsFromGMT() ?? 0)")
+        print("Detroit offset: \(detroitTZ?.secondsFromGMT() ?? 0)")
+    }
+    
+    // Example usage with both timezones:
+    func exampleWithBothET() {
+        let jsonNY = """
+        {"serverTime":"2025-06-10T14:40:22.912Z","timeZone":"America/New_York"}
+        """
+        
+        let jsonDetroit = """
+        {"serverTime":"2025-06-10T14:40:22.912Z","timeZone":"America/Detroit"}
+        """
+        
+        print("New York format: \(formatServerTime(jsonString: jsonNY) ?? "nil")")
+        print("Detroit format: \(formatServerTime(jsonString: jsonDetroit) ?? "nil")")
+    }
+}

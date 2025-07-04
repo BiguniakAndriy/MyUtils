@@ -8,14 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		D5A5D07A2DB7816B00B98816 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = D5A5D0792DB7816B00B98816 /* AsyncAlgorithms */; };
-		D5B8EA0E2DCCB02F0050939E /* UtilsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B8EA0D2DCCB02F0050939E /* UtilsApp.swift */; };
 		D5B8EA112DCCB02F0050939E /* AsyncTimerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B8EA0C2DCCB02F0050939E /* AsyncTimerTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D5A5D0662DB77F2F00B98816 /* Utils.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Utils.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5B8EA0C2DCCB02F0050939E /* AsyncTimerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncTimerTest.swift; sourceTree = "<group>"; };
-		D5B8EA0D2DCCB02F0050939E /* UtilsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilsApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -59,7 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				D5B8EA0C2DCCB02F0050939E /* AsyncTimerTest.swift */,
-				D5B8EA0D2DCCB02F0050939E /* UtilsApp.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -142,7 +139,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5B8EA0E2DCCB02F0050939E /* UtilsApp.swift in Sources */,
 				D5B8EA112DCCB02F0050939E /* AsyncTimerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
