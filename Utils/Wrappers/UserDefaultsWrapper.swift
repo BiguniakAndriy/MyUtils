@@ -40,7 +40,7 @@ public struct UserDefaultsWrapper<T: UserDefaultsSerializable>
 
 
 @propertyWrapper
-public struct UserDefaultsOprionalWrapper<T: UserDefaultsSerializable>
+public struct UserDefaultsOptionalWrapper<T: UserDefaultsSerializable>
 {
     private let userDefaults: UserDefaults
 
