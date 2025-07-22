@@ -11,7 +11,7 @@ import Foundation
 enum Logger: String
 {
     case error
-    case warring
+    case warning
     case success
     case debug
     case info
@@ -21,7 +21,7 @@ enum Logger: String
         switch self {
             case .error:
                 return "❌"
-            case .warring:
+            case .warning:
                 return "⚠️"
             case .success:
                 return "✅"
@@ -49,13 +49,13 @@ enum Logger: String
         log(message: message, type: .error, file, function, line)
     }
     
-    static func warring(
+    static func warning(
         _ message: String,
         _ file: String = #fileID,
         _ function: String = #function,
         _ line: Int = #line
     ) {
-        log(message: message, type: .error, file, function, line)
+        log(message: message, type: .warning, file, function, line)
     }
     
     static func success(
