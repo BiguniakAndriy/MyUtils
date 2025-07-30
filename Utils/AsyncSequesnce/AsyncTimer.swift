@@ -47,6 +47,10 @@ final class AsyncTimer: Sendable
     public func stop() {
         self.baseTimer.stop()
     }
+    
+    public func pause(_ isOnPause: Bool) {
+        self.baseTimer.pause(isOnPause)
+    }
 }
 
 
@@ -88,6 +92,10 @@ final class AsyncСountdownTimer
     public func stop() {
         self.baseTimer.stop()
     }
+    
+    public func pause(_ isOnPause: Bool) {
+        self.baseTimer.pause(isOnPause)
+    }
 }
 
 
@@ -98,9 +106,10 @@ fileprivate actor BaseCountdownAsyncTimer: Sendable
     private let id: String
     private var timerTask: Task<Void, Never>?
     private var remainTimeInSeconds: Int?
+    private var isOnPause: Bool = false
     
     public init(id: String? = nil) {
-        self.id = (id ?? "") + "_" + String.random(length: 4)
+        self.id = (id ?? "") + "_" + Self.randomID(length: 4)
         print("AsyncTimer init(), id - \(self.id)")
     }
     
@@ -122,6 +131,9 @@ fileprivate actor BaseCountdownAsyncTimer: Sendable
             try? await Task.sleep(for: .seconds(startDelayInSeconds))
             let timer = AsyncTimerSequence(interval: .seconds(interval), clock: .continuous)
             for await _ in timer {
+                guard await self?.isOnPause == false else {
+                    continue
+                }
                 // repeating until called stop() if remainTimeInSeconds == nil
                 guard let seconds = await self?.remainTimeInSeconds else {
                     await iterationAction(self?.remainTimeInSeconds)
@@ -151,6 +163,19 @@ fileprivate actor BaseCountdownAsyncTimer: Sendable
     }
     
     nonisolated
+    func pause(_ isOnPause: Bool) {
+        Task { [weak self] in
+            await self?._pause(isOnPause)
+        }
+    }
+    
+    
+    private func _pause(_ isOnPause: Bool) {
+        self.isOnPause = isOnPause
+        print("AsyncTimer on pause - \(isOnPause)")
+    }
+    
+    nonisolated
     func stop() {
         Task { [weak self] in
             await self?._stop()
@@ -164,5 +189,14 @@ fileprivate actor BaseCountdownAsyncTimer: Sendable
             self.remainTimeInSeconds = nil
             print("AsyncTimer stoppped, id - \(self.id)")
         }
+    }
+    
+    private static func randomID(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var s = ""
+        for _ in 0 ..< length {
+            s.append(letters.randomElement()!)
+        }
+        return s
     }
 }

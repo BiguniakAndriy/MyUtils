@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import RegexBuilder
 
+
 public extension String
 {
     // MARK: - Random string with set letght
