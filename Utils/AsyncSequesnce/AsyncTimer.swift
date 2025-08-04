@@ -193,10 +193,10 @@ fileprivate actor BaseCountdownAsyncTimer: Sendable
     
     private static func randomID(length: Int) -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        var s = ""
+        var string = ""
         for _ in 0 ..< length {
-            s.append(letters.randomElement()!)
+            string.append(letters.randomElement()!)
         }
-        return s
+        return string
     }
 }
