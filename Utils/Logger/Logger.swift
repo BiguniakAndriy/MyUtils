@@ -103,8 +103,10 @@ enum Logger: String
     ) {
         let file = file.split(separator: "/").last ?? "can't get name"
         print(
-            "\(type.icon) \(Logger.logDateFormatter.string(from: Date())) [\(type.rawValue.uppercased())]: " + "\(message)" +
-            (type == .info ? "\n" : "\nFile: \(file), func: \(function), line: \(line)\n")
+            (type == .debug ? "\n" : "") +
+            "\(type.icon) \(FSLogger.logDateFormatter.string(from: Date())) [\(type.rawValue.uppercased())]: " + "\(message)" +
+            "\nFile: \(file), func: \(function), line: \(line)" +
+            (type == .debug ? "\n" : "")
         )
    }
 }
